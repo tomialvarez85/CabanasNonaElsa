@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Gestión de Cabañas
 
-## Getting Started
+Sistema interno (2 usuarios) para gestionar reservas de 2 cabañas: calendario mensual,
+vista lista, resumen de ocupación/facturación y login con Supabase Auth.
 
-First, run the development server:
+## Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Next.js 14 (App Router) + TypeScript + Tailwind
+- Supabase (Postgres + Auth)
+- Deploy: Vercel
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Correr el proyecto localmente
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Instalar dependencias:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+   ```bash
+   npm install
+   ```
 
-## Learn More
+2. Crear el archivo de variables de entorno a partir del ejemplo:
 
-To learn more about Next.js, take a look at the following resources:
+   ```bash
+   cp .env.local.example .env.local
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. Completar `.env.local` con los datos de tu proyecto de Supabase (ver sección
+   siguiente).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4. Levantar el servidor de desarrollo:
 
-## Deploy on Vercel
+   ```bash
+   npm run dev
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   La app queda disponible en [http://localhost:3000](http://localhost:3000).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Variables de entorno
+
+Solo hacen falta estas dos (ambas públicas, van al bundle del cliente porque
+empiezan con `NEXT_PUBLIC_`; el acceso a datos está protegido por RLS en Supabase,
+no por mantenerlas secretas):
+
+| Variable                       | Dónde encontrarla                                                    |
+| ------------------------------- | ---------------------------------------------------------------------- |
+| `NEXT_PUBLIC_SUPABASE_URL`      | Supabase Dashboard → tu proyecto → Project Settings → API → Project URL |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase Dashboard → tu proyecto → Project Settings → API → anon public |
+
+## Base de datos
+
+Antes del primer uso, correr en el SQL Editor de Supabase, en este orden:
+
+1. `supabase/schema.sql` — crea las tablas, constraints, RLS y las 2 cabañas.
+2. `supabase/seed.sql` (opcional) — carga las reservas de la temporada de ejemplo.
+
+Los usuarios (los 2 dueños) se crean a mano desde **Authentication → Users → Add user**
+en el dashboard de Supabase; no hay registro público.
+
+## Deploy en Vercel
+
+1. Pushear el repo a GitHub (ver pasos abajo).
+2. En [vercel.com](https://vercel.com), importar el repositorio.
+3. En **Settings → Environment Variables** del proyecto en Vercel, cargar
+   `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_ANON_KEY` con los mismos valores
+   que en `.env.local`.
+4. Deploy. Cada push a la rama principal vuelve a deployar automáticamente.

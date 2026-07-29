@@ -3,15 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #f5f0e6;
+  --foreground: #26372e;
 }
 
 body {
@@ -20,8 +13,48 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Evita el zoom automático de iOS al enfocar un input con fuente < 16px. */
+input,
+select,
+textarea {
+  font-size: 16px;
+}
+
+@layer components {
+  /* Inputs/selects/textareas consistentes en toda la app. */
+  .input-field {
+    @apply w-full rounded-lg border border-pine/30 bg-cream px-3 py-2.5 text-base text-pine placeholder:text-pine/40 transition focus:border-pine focus:outline-none focus-visible:ring-2 focus-visible:ring-wood/70;
+  }
+
+  .field-label {
+    @apply mb-1 block text-sm font-medium text-pine;
+  }
+
+  /* Botones con mínimo 44px de alto para un área táctil cómoda. */
+  .btn-primary {
+    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg bg-pine px-4 py-2.5 text-sm font-medium text-cream shadow-sm transition hover:bg-pine-light active:scale-[0.98] disabled:pointer-events-none disabled:opacity-60;
+  }
+
+  .btn-secondary {
+    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg border border-pine/30 bg-cream px-4 py-2.5 text-sm font-medium text-pine transition hover:bg-pine/10 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-60;
+  }
+
+  .btn-danger {
+    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg border border-estado-pendiente/50 bg-cream px-4 py-2.5 text-sm font-medium text-estado-pendiente transition hover:bg-estado-pendiente/10 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-60;
+  }
+
+  .card {
+    @apply rounded-xl border border-pine/15 bg-cream-dark/60 shadow-sm;
+  }
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  /* Foco visible por teclado, para elementos que no usan .btn- o .input-field. */
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-wood/70 focus-visible:ring-offset-2 focus-visible:ring-offset-cream;
   }
 }

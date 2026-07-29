@@ -1,101 +1,119 @@
-import Image from "next/image";
+import { createClient } from "@/lib/supabase/server";
+import { clampMonth, getFetchRange, getMonthGrid, todayISO } from "@/lib/dates";
+import type { Cabana, EstadoPago, Reserva } from "@/types/reserva";
+import CabanaTabs from "@/components/calendar/CabanaTabs";
+import MonthNav from "@/components/calendar/MonthNav";
+import CalendarGrid from "@/components/calendar/CalendarGrid";
+import ViewToggle from "@/components/calendar/ViewToggle";
+import SummaryCards from "@/components/calendar/SummaryCards";
+import NuevaReservaButton from "@/components/calendar/NuevaReservaButton";
+import ListFilters from "@/components/list/ListFilters";
+import ReservaListView from "@/components/list/ReservaListView";
+import { computeMonthSummary } from "@/lib/summary";
 
-export default function Home() {
+const ESTADO_VALUES: EstadoPago[] = ["pendiente", "sena", "pagado"];
+
+interface HomeProps {
+  searchParams: {
+    cabana?: string;
+    year?: string;
+    month?: string;
+    view?: string;
+    desde?: string;
+    hasta?: string;
+    estado?: string;
+  };
+}
+
+export default async function Home({ searchParams }: HomeProps) {
+  const supabase = createClient();
+
+  const { data: cabanasData } = await supabase
+    .from("cabanas")
+    .select("id, nombre")
+    .order("nombre");
+  const cabanas: Cabana[] = cabanasData ?? [];
+
+  const selectedCabanaId =
+    (searchParams.cabana && cabanas.some((c) => c.id === searchParams.cabana)
+      ? searchParams.cabana
+      : cabanas[0]?.id) ?? "";
+
+  const view = searchParams.view === "list" ? "list" : "calendar";
+
+  if (view === "list") {
+    const desde = searchParams.desde ?? "";
+    const hasta = searchParams.hasta ?? "";
+    const estado = searchParams.estado ?? "todos";
+
+    let reservas: Reserva[] = [];
+    if (selectedCabanaId) {
+      let query = supabase
+        .from("reservas")
+        .select("*")
+        .eq("cabana_id", selectedCabanaId)
+        .order("check_in");
+
+      if (desde) query = query.gte("check_out", desde);
+      if (hasta) query = query.lte("check_in", hasta);
+      if (ESTADO_VALUES.includes(estado as EstadoPago)) {
+        query = query.eq("estado_pago", estado as EstadoPago);
+      }
+
+      const { data } = await query;
+      reservas = data ?? [];
+    }
+
+    return (
+      <div className="mx-auto max-w-6xl px-3 py-6 pb-28 sm:px-6">
+        <CabanaTabs cabanas={cabanas} selectedCabanaId={selectedCabanaId} />
+        <ViewToggle view={view} />
+        <ListFilters desde={desde} hasta={hasta} estado={estado} />
+        <ReservaListView cabanaId={selectedCabanaId} reservas={reservas} />
+        <NuevaReservaButton cabanaId={selectedCabanaId} defaultDateISO={todayISO()} />
+      </div>
+    );
+  }
+
+  const now = new Date();
+  const year = searchParams.year ? parseInt(searchParams.year, 10) : now.getFullYear();
+  const month = clampMonth(
+    searchParams.month ? parseInt(searchParams.month, 10) : now.getMonth() + 1,
+  );
+  const safeYear = Number.isNaN(year) ? now.getFullYear() : year;
+
+  const grid = getMonthGrid(safeYear, month);
+  const { startISO, endISO } = getFetchRange(grid);
+
+  let reservas: Reserva[] = [];
+  if (selectedCabanaId) {
+    const { data } = await supabase
+      .from("reservas")
+      .select("*")
+      .eq("cabana_id", selectedCabanaId)
+      .lt("check_in", endISO)
+      .gt("check_out", startISO)
+      .order("check_in");
+    reservas = data ?? [];
+  }
+
+  const summary = computeMonthSummary(reservas, safeYear, month);
+  const monthFirstDayISO = grid.find((cell) => cell.isCurrentMonth)?.iso ?? todayISO();
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+    <div className="mx-auto max-w-6xl px-3 py-6 pb-28 sm:px-6">
+      <CabanaTabs cabanas={cabanas} selectedCabanaId={selectedCabanaId} />
+      <ViewToggle view={view} />
+      <MonthNav year={safeYear} month={month} />
+      <SummaryCards summary={summary} />
+      <CalendarGrid
+        year={safeYear}
+        month={month}
+        cabanaId={selectedCabanaId}
+        reservas={reservas}
+        todayISO={todayISO()}
+      />
+      <NuevaReservaButton cabanaId={selectedCabanaId} defaultDateISO={monthFirstDayISO} />
     </div>
   );
 }
