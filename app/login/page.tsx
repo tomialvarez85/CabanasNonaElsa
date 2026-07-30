@@ -25,7 +25,16 @@ export default function LoginPage() {
     setLoading(false);
 
     if (signInError) {
-      setError("Email o contraseña incorrectos.");
+      // TODO(debug login Vercel): sacar este console.error y el detalle en
+      // pantalla una vez que confirmemos por qué falla en el deploy.
+      console.error("[login] signInWithPassword error:", {
+        message: signInError.message,
+        status: signInError.status,
+        code: signInError.code,
+      });
+      setError(
+        `Email o contraseña incorrectos. (debug: ${signInError.code ?? "sin código"} — ${signInError.message})`,
+      );
       return;
     }
 
