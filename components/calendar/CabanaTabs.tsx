@@ -27,7 +27,7 @@ export default function CabanaTabs({ cabanas, selectedCabanaId }: CabanaTabsProp
   }
 
   return (
-    <div className="mb-4 flex gap-2" role="tablist" aria-label="Cabaña">
+    <div className="mb-4 flex flex-wrap gap-2" role="tablist" aria-label="Cabaña">
       {cabanas.map((cabana) => {
         const active = cabana.id === selectedCabanaId;
         return (

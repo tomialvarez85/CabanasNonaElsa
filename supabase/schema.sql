@@ -24,9 +24,15 @@ create extension if not exists btree_gist;
 -- 1) Tabla cabanas
 -- ----------------------------------------------------------------------------
 create table if not exists cabanas (
-  id         uuid primary key default gen_random_uuid(),
-  nombre     text not null,
-  created_at timestamptz not null default now()
+  id                          uuid primary key default gen_random_uuid(),
+  nombre                      text not null,
+  -- Controla si esta cabaña suma en los totales combinados de la pantalla
+  -- "Resumen general" (Cabaña 1 + Cabaña 2). Cabañas especiales (por ejemplo
+  -- una de uso familiar, no de alquiler) se pueden excluir poniendo esto en
+  -- false, sin tocar código: siguen teniendo su propio calendario y resumen
+  -- individual igual que cualquier otra.
+  incluir_en_resumen_general boolean not null default true,
+  created_at                 timestamptz not null default now()
 );
 
 
@@ -133,5 +139,7 @@ create policy "authenticated_full_access"
 -- ----------------------------------------------------------------------------
 -- 6) Datos iniciales
 -- ----------------------------------------------------------------------------
-insert into cabanas (nombre)
-values ('Cabaña 1'), ('Cabaña 2');
+insert into cabanas (nombre, incluir_en_resumen_general)
+values
+  ('Cabaña 1', true),
+  ('Cabaña 2', true);

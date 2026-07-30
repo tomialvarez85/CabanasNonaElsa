@@ -10,6 +10,7 @@ import RangeSelector from "@/components/resumen/RangeSelector";
 import SummaryCards from "@/components/calendar/SummaryCards";
 import CabanaComparisonTable from "@/components/resumen/CabanaComparisonTable";
 import MonthlyRevenueChart from "@/components/resumen/MonthlyRevenueChart";
+import VolverAlCalendarioButton from "@/components/resumen/VolverAlCalendarioButton";
 
 interface ResumenGeneralProps {
   searchParams: { preset?: string; desde?: string; hasta?: string };
@@ -102,7 +103,10 @@ export default async function ResumenGeneralPage({ searchParams }: ResumenGenera
 
   return (
     <div className="mx-auto max-w-6xl px-3 py-6 sm:px-6">
-      <h2 className="mb-4 text-xl font-semibold text-pine">Resumen general</h2>
+      <div className="mb-4 flex items-center gap-3">
+        <VolverAlCalendarioButton />
+        <h2 className="text-xl font-semibold text-pine">Resumen general</h2>
+      </div>
 
       <RangeSelector
         preset={preset}

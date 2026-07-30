@@ -7,6 +7,7 @@ import CalendarGrid from "@/components/calendar/CalendarGrid";
 import ViewToggle from "@/components/calendar/ViewToggle";
 import SummaryCards from "@/components/calendar/SummaryCards";
 import NuevaReservaButton from "@/components/calendar/NuevaReservaButton";
+import RememberCabana from "@/components/calendar/RememberCabana";
 import ListFilters from "@/components/list/ListFilters";
 import ReservaListView from "@/components/list/ReservaListView";
 import { computeMonthSummary } from "@/lib/summary";
@@ -66,6 +67,7 @@ export default async function Home({ searchParams }: HomeProps) {
 
     return (
       <div className="mx-auto max-w-6xl px-3 py-6 pb-28 sm:px-6">
+        <RememberCabana cabanaId={selectedCabanaId} />
         <CabanaTabs cabanas={cabanas} selectedCabanaId={selectedCabanaId} />
         <ViewToggle view={view} />
         <ListFilters desde={desde} hasta={hasta} estado={estado} />
@@ -102,6 +104,7 @@ export default async function Home({ searchParams }: HomeProps) {
 
   return (
     <div className="mx-auto max-w-6xl px-3 py-6 pb-28 sm:px-6">
+      <RememberCabana cabanaId={selectedCabanaId} />
       <CabanaTabs cabanas={cabanas} selectedCabanaId={selectedCabanaId} />
       <ViewToggle view={view} />
       <MonthNav year={safeYear} month={month} />
