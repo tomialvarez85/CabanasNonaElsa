@@ -7,22 +7,62 @@ interface SummaryCardsProps {
 
 export default function SummaryCards({ summary }: SummaryCardsProps) {
   return (
-    <div className="mb-4 grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3 lg:grid-cols-5">
-      <SummaryCard icon="$" label="Facturado" value={formatMoney(summary.totalFacturado)} />
-      <SummaryCard icon="✓" label="Cobrado" value={formatMoney(summary.totalCobrado)} />
-      <SummaryCard
-        icon="!"
-        label="Pendiente de cobro"
-        value={formatMoney(summary.totalPendiente)}
-        accent={summary.totalPendiente > 0}
-      />
-      <SummaryCard
-        icon="%"
-        label="Ocupación"
-        value={`${summary.ocupacionPct.toFixed(0)}%`}
-        hint={`${summary.nochesReservadas} / ${summary.nochesDisponibles} noches`}
-      />
-      <SummaryCard icon="#" label="Reservas activas" value={String(summary.reservasActivas)} />
+    <div className="mb-4 flex flex-col gap-2 sm:gap-3">
+      {/* Métricas destacadas */}
+      <div className="grid grid-cols-2 gap-2 sm:gap-3">
+        <HeroCard icon="$" label="Facturado" value={formatMoney(summary.totalFacturado)} />
+        <HeroCard
+          icon="%"
+          label="Ocupación"
+          value={`${summary.ocupacionPct.toFixed(0)}%`}
+          hint={`${summary.nochesReservadas} / ${summary.nochesDisponibles} noches`}
+        />
+      </div>
+
+      {/* Secundarias + chip de reservas activas */}
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3">
+        <SummaryCard icon="✓" label="Cobrado" value={formatMoney(summary.totalCobrado)} />
+        <SummaryCard
+          icon="!"
+          label="Pendiente de cobro"
+          value={formatMoney(summary.totalPendiente)}
+          accent={summary.totalPendiente > 0}
+        />
+        <div className="col-span-2 flex items-center justify-center gap-2 rounded-full border border-pine/15 bg-cream-dark/60 px-4 py-2.5 text-sm font-medium text-pine shadow-sm sm:col-span-1">
+          <span aria-hidden="true" className="text-pine/50">
+            #
+          </span>
+          {summary.reservasActivas} {summary.reservasActivas === 1 ? "reserva activa" : "reservas activas"}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function HeroCard({
+  icon,
+  label,
+  value,
+  hint,
+}: {
+  icon: string;
+  label: string;
+  value: string;
+  hint?: string;
+}) {
+  return (
+    <div className="card flex flex-col gap-1 p-4 sm:p-5">
+      <div className="flex items-center gap-2">
+        <span
+          aria-hidden="true"
+          className="flex h-6 w-6 shrink-0 items-center justify-center rounded bg-pine/10 text-sm font-bold text-pine/70"
+        >
+          {icon}
+        </span>
+        <p className="text-xs font-medium text-pine/60 sm:text-sm">{label}</p>
+      </div>
+      <p className="text-xl font-bold leading-tight text-pine sm:text-2xl">{value}</p>
+      {hint && <p className="text-[11px] text-pine/50 sm:text-xs">{hint}</p>}
     </div>
   );
 }
@@ -31,13 +71,11 @@ function SummaryCard({
   icon,
   label,
   value,
-  hint,
   accent,
 }: {
   icon: string;
   label: string;
   value: string;
-  hint?: string;
   accent?: boolean;
 }) {
   return (
@@ -49,16 +87,15 @@ function SummaryCard({
         >
           {icon}
         </span>
-        <p className="text-xs font-medium text-pine/60 sm:text-sm">{label}</p>
+        <p className="text-xs font-medium text-pine/60">{label}</p>
       </div>
       <p
-        className={`text-lg font-semibold leading-tight sm:text-xl ${
+        className={`text-base font-semibold leading-tight sm:text-lg ${
           accent ? "text-estado-pendiente" : "text-pine"
         }`}
       >
         {value}
       </p>
-      {hint && <p className="text-[11px] text-pine/50">{hint}</p>}
     </div>
   );
 }

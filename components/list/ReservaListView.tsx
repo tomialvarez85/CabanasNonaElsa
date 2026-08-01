@@ -53,8 +53,11 @@ export default function ReservaListView({ cabanaId, reservas }: ReservaListViewP
         <p className="font-medium text-pine">No hay reservas para los filtros seleccionados</p>
         <p className="text-sm text-pine/60">Probá ajustar el rango de fechas o el estado filtrado.</p>
         {cabanaId && (
-          <button onClick={() => setCreating(true)} className="btn-primary mt-1">
-            <span aria-hidden="true">+</span> Nueva reserva
+          <button
+            onClick={() => setCreating(true)}
+            className="focus-ring mt-1 rounded px-1 text-sm font-medium text-pine underline decoration-pine/40 underline-offset-4 transition hover:text-pine-light"
+          >
+            + Cargar una reserva
           </button>
         )}
         {creating && (

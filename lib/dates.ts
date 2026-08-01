@@ -1,4 +1,5 @@
 export const WEEKDAY_LABELS = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
+export const WEEKDAY_LABELS_SHORT = ["L", "M", "X", "J", "V", "S", "D"];
 
 export const MONTH_LABELS = [
   "Enero",
