@@ -37,13 +37,13 @@ export default function RangeSelector({ preset, desde, hasta }: RangeSelectorPro
 
   return (
     <div className="mb-5 flex flex-wrap items-end gap-3">
-      <div className="inline-flex rounded-full border border-pine/30 p-0.5">
+      <div className="inline-flex rounded-full border border-cream/20 bg-ink-light p-0.5 shadow-sm">
         {PRESETS.map((p) => (
           <button
             key={p.value}
             onClick={() => setPreset(p.value)}
-            className={`rounded-full px-3 py-1 text-sm font-medium transition ${
-              preset === p.value ? "bg-pine text-cream" : "text-pine hover:bg-pine/10"
+            className={`focus-ring rounded-full px-3 py-1.5 text-sm font-medium transition ${
+              preset === p.value ? "bg-pine text-cream" : "text-cream hover:bg-cream/10"
             }`}
           >
             {p.label}
@@ -54,21 +54,21 @@ export default function RangeSelector({ preset, desde, hasta }: RangeSelectorPro
       {preset === "custom" && (
         <>
           <div>
-            <label className="mb-1 block text-xs font-medium text-pine/70">Desde</label>
+            <label className="field-label text-xs">Desde</label>
             <input
               type="date"
               value={desde}
               onChange={(e) => setCustomDate("desde", e.target.value)}
-              className="rounded border border-pine/30 bg-cream px-2 py-1.5 text-sm text-pine focus:border-pine focus:outline-none"
+              className="input-field w-auto py-1.5"
             />
           </div>
           <div>
-            <label className="mb-1 block text-xs font-medium text-pine/70">Hasta</label>
+            <label className="field-label text-xs">Hasta</label>
             <input
               type="date"
               value={hasta}
               onChange={(e) => setCustomDate("hasta", e.target.value)}
-              className="rounded border border-pine/30 bg-cream px-2 py-1.5 text-sm text-pine focus:border-pine focus:outline-none"
+              className="input-field w-auto py-1.5"
             />
           </div>
         </>

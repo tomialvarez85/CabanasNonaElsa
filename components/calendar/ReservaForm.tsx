@@ -70,52 +70,52 @@ export default function ReservaForm({
     <form onSubmit={handleSubmit} className="flex flex-col gap-3">
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <label className="mb-1 block text-sm font-medium text-pine">Check-in</label>
+          <label className="field-label">Check-in</label>
           <input
             type="date"
             required
             value={checkIn}
             onChange={(e) => setCheckIn(e.target.value)}
-            className="w-full rounded border border-pine/30 bg-cream px-2 py-1.5 text-pine focus:border-pine focus:outline-none"
+            className="input-field"
           />
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium text-pine">Check-out</label>
+          <label className="field-label">Check-out</label>
           <input
             type="date"
             required
             value={checkOut}
             onChange={(e) => setCheckOut(e.target.value)}
-            className="w-full rounded border border-pine/30 bg-cream px-2 py-1.5 text-pine focus:border-pine focus:outline-none"
+            className="input-field"
           />
         </div>
       </div>
 
       <div>
-        <label className="mb-1 block text-sm font-medium text-pine">Huésped</label>
+        <label className="field-label">Huésped</label>
         <input
           type="text"
           required
           value={huespedNombre}
           onChange={(e) => setHuespedNombre(e.target.value)}
-          className="w-full rounded border border-pine/30 bg-cream px-2 py-1.5 text-pine focus:border-pine focus:outline-none"
+          className="input-field"
         />
       </div>
 
       <div className="grid grid-cols-3 gap-3">
         <div>
-          <label className="mb-1 block text-sm font-medium text-pine">Personas</label>
+          <label className="field-label">Personas</label>
           <input
             type="number"
             min={1}
             required
             value={personas}
             onChange={(e) => setPersonas(e.target.value)}
-            className="w-full rounded border border-pine/30 bg-cream px-2 py-1.5 text-pine focus:border-pine focus:outline-none"
+            className="input-field"
           />
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium text-pine">Total</label>
+          <label className="field-label">Total</label>
           <input
             type="number"
             min={0}
@@ -123,11 +123,11 @@ export default function ReservaForm({
             required
             value={total}
             onChange={(e) => setTotal(e.target.value)}
-            className="w-full rounded border border-pine/30 bg-cream px-2 py-1.5 text-pine focus:border-pine focus:outline-none"
+            className="input-field"
           />
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium text-pine">Seña</label>
+          <label className="field-label">Seña</label>
           <input
             type="number"
             min={0}
@@ -135,17 +135,17 @@ export default function ReservaForm({
             required
             value={sena}
             onChange={(e) => setSena(e.target.value)}
-            className="w-full rounded border border-pine/30 bg-cream px-2 py-1.5 text-pine focus:border-pine focus:outline-none"
+            className="input-field"
           />
         </div>
       </div>
 
       <div>
-        <label className="mb-1 block text-sm font-medium text-pine">Estado de pago</label>
+        <label className="field-label">Estado de pago</label>
         <select
           value={estadoPago}
           onChange={(e) => setEstadoPago(e.target.value as EstadoPago)}
-          className="w-full rounded border border-pine/30 bg-cream px-2 py-1.5 text-pine focus:border-pine focus:outline-none"
+          className="input-field"
         >
           <option value="pendiente">Pendiente de seña</option>
           <option value="sena">Seña pagada</option>
@@ -154,30 +154,22 @@ export default function ReservaForm({
       </div>
 
       <div>
-        <label className="mb-1 block text-sm font-medium text-pine">Notas</label>
+        <label className="field-label">Notas</label>
         <textarea
           value={notas ?? ""}
           onChange={(e) => setNotas(e.target.value)}
           rows={2}
-          className="w-full rounded border border-pine/30 bg-cream px-2 py-1.5 text-pine focus:border-pine focus:outline-none"
+          className="input-field"
         />
       </div>
 
       {error && <p className="text-sm text-estado-pendiente">{error}</p>}
 
       <div className="mt-1 flex gap-2">
-        <button
-          type="submit"
-          disabled={loading}
-          className="rounded bg-pine px-4 py-2 text-sm font-medium text-cream transition hover:bg-pine-light disabled:opacity-60"
-        >
+        <button type="submit" disabled={loading} className="btn-primary">
           {loading ? "Guardando..." : "Guardar"}
         </button>
-        <button
-          type="button"
-          onClick={onCancel}
-          className="rounded border border-pine/30 px-4 py-2 text-sm font-medium text-pine transition hover:bg-pine/10"
-        >
+        <button type="button" onClick={onCancel} className="btn-secondary">
           Cancelar
         </button>
       </div>

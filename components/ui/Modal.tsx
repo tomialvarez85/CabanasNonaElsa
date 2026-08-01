@@ -18,12 +18,12 @@ export default function Modal({ onClose, children }: ModalProps) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-pine-dark/60 px-3"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-ink-dark/80 px-3"
       onClick={onClose}
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="max-h-[85vh] w-full max-w-lg overflow-y-auto rounded-lg bg-cream p-5 shadow-xl sm:p-6"
+        className="max-h-[85vh] w-full max-w-lg overflow-y-auto rounded-lg border border-cream/10 bg-ink-light p-5 shadow-xl sm:p-6"
       >
         {children}
       </div>

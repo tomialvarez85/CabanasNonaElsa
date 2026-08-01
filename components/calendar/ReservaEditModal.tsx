@@ -15,7 +15,7 @@ export default function ReservaEditModal({ reserva, onClose }: ReservaEditModalP
 
   return (
     <Modal onClose={onClose}>
-      <h2 className="mb-4 text-lg font-semibold text-pine">Editar reserva</h2>
+      <h2 className="mb-4 text-lg font-semibold text-cream">Editar reserva</h2>
       <ReservaForm
         cabanaId={reserva.cabana_id}
         initial={reserva}

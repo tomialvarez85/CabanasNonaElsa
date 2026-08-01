@@ -50,12 +50,12 @@ export default function ReservaListView({ cabanaId, reservas }: ReservaListViewP
   if (reservas.length === 0) {
     return (
       <div className="card flex flex-col items-center gap-3 px-4 py-8 text-center">
-        <p className="font-medium text-pine">No hay reservas para los filtros seleccionados</p>
-        <p className="text-sm text-pine/60">Probá ajustar el rango de fechas o el estado filtrado.</p>
+        <p className="font-medium text-cream">No hay reservas para los filtros seleccionados</p>
+        <p className="text-sm text-cream/60">Probá ajustar el rango de fechas o el estado filtrado.</p>
         {cabanaId && (
           <button
             onClick={() => setCreating(true)}
-            className="focus-ring mt-1 rounded px-1 text-sm font-medium text-pine underline decoration-pine/40 underline-offset-4 transition hover:text-pine-light"
+            className="focus-ring mt-1 rounded px-1 text-sm font-medium text-cream underline decoration-cream/40 underline-offset-4 transition hover:text-white"
           >
             + Cargar una reserva
           </button>
@@ -92,8 +92,8 @@ export default function ReservaListView({ cabanaId, reservas }: ReservaListViewP
                   <div key={reserva.id} className="card p-3">
                     <div className="mb-2 flex items-start justify-between gap-2">
                       <div className="min-w-0">
-                        <p className="truncate font-medium text-pine">{reserva.huesped_nombre}</p>
-                        <p className="text-xs text-pine/60">
+                        <p className="truncate font-medium text-cream">{reserva.huesped_nombre}</p>
+                        <p className="text-xs text-cream/60">
                           {formatShortDate(reserva.check_in)} → {formatShortDate(reserva.check_out)} ·{" "}
                           {nightsBetween(reserva.check_in, reserva.check_out)} noches · {reserva.personas}{" "}
                           pers.
@@ -108,17 +108,17 @@ export default function ReservaListView({ cabanaId, reservas }: ReservaListViewP
                     </div>
                     <div className="mb-3 grid grid-cols-3 gap-2 text-sm">
                       <div>
-                        <p className="text-[11px] text-pine/50">Total</p>
-                        <p className="font-medium text-pine">{formatMoney(reserva.total)}</p>
+                        <p className="text-[11px] text-cream/50">Total</p>
+                        <p className="font-medium text-cream">{formatMoney(reserva.total)}</p>
                       </div>
                       <div>
-                        <p className="text-[11px] text-pine/50">Seña</p>
-                        <p className="font-medium text-pine">{formatMoney(reserva.sena)}</p>
+                        <p className="text-[11px] text-cream/50">Seña</p>
+                        <p className="font-medium text-cream">{formatMoney(reserva.sena)}</p>
                       </div>
                       <div>
-                        <p className="text-[11px] text-pine/50">Saldo</p>
+                        <p className="text-[11px] text-cream/50">Saldo</p>
                         <p
-                          className={`font-medium ${saldo > 0 ? "text-estado-pendiente" : "text-pine"}`}
+                          className={`font-medium ${saldo > 0 ? "text-estado-pendiente" : "text-cream"}`}
                         >
                           {formatMoney(saldo)}
                         </p>
@@ -148,7 +148,7 @@ export default function ReservaListView({ cabanaId, reservas }: ReservaListViewP
             <div className="hidden overflow-x-auto sm:block">
               <table className="mt-2 w-full min-w-[720px] border-collapse text-sm">
                 <thead>
-                  <tr className="border-b border-pine/20 text-left text-pine/60">
+                  <tr className="border-b border-cream/20 text-left text-cream/60">
                     <th className="py-2 pr-3 font-medium">Fecha</th>
                     <th className="py-2 pr-3 font-medium">Noches</th>
                     <th className="py-2 pr-3 font-medium">Personas</th>
@@ -164,30 +164,30 @@ export default function ReservaListView({ cabanaId, reservas }: ReservaListViewP
                   {groupReservas.map((reserva) => {
                     const saldo = reserva.total - reserva.sena;
                     return (
-                      <tr key={reserva.id} className="border-b border-pine/10">
-                        <td className="whitespace-nowrap py-2 pr-3 text-pine">
+                      <tr key={reserva.id} className="border-b border-cream/10">
+                        <td className="whitespace-nowrap py-2 pr-3 text-cream">
                           {formatShortDate(reserva.check_in)} → {formatShortDate(reserva.check_out)}
                         </td>
-                        <td className="py-2 pr-3 text-pine">
+                        <td className="py-2 pr-3 text-cream">
                           {nightsBetween(reserva.check_in, reserva.check_out)}
                         </td>
-                        <td className="py-2 pr-3 text-pine">{reserva.personas}</td>
-                        <td className="py-2 pr-3 text-pine">{reserva.huesped_nombre}</td>
-                        <td className="whitespace-nowrap py-2 pr-3 text-pine">
+                        <td className="py-2 pr-3 text-cream">{reserva.personas}</td>
+                        <td className="py-2 pr-3 text-cream">{reserva.huesped_nombre}</td>
+                        <td className="whitespace-nowrap py-2 pr-3 text-cream">
                           {formatMoney(reserva.total)}
                         </td>
-                        <td className="whitespace-nowrap py-2 pr-3 text-pine">
+                        <td className="whitespace-nowrap py-2 pr-3 text-cream">
                           {formatMoney(reserva.sena)}
                         </td>
                         <td
                           className={`whitespace-nowrap py-2 pr-3 ${
-                            saldo > 0 ? "font-medium text-estado-pendiente" : "text-pine"
+                            saldo > 0 ? "font-medium text-estado-pendiente" : "text-cream"
                           }`}
                         >
                           {formatMoney(saldo)}
                         </td>
                         <td className="whitespace-nowrap py-2 pr-3">
-                          <span className="flex items-center gap-1.5 text-pine">
+                          <span className="flex items-center gap-1.5 text-cream">
                             <span
                               className={`h-2.5 w-2.5 rounded-full ${ESTADO_DOT_CLASS[reserva.estado_pago]}`}
                               aria-hidden="true"
@@ -199,7 +199,7 @@ export default function ReservaListView({ cabanaId, reservas }: ReservaListViewP
                           <div className="flex gap-2">
                             <button
                               onClick={() => setEditingReserva(reserva)}
-                              className="focus-ring rounded-lg border border-pine/30 px-2 py-1 text-xs font-medium text-pine transition hover:bg-pine/10"
+                              className="focus-ring rounded-lg border border-cream/30 px-2 py-1 text-xs font-medium text-cream transition hover:bg-cream/10"
                             >
                               Editar
                             </button>

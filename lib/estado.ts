@@ -7,7 +7,7 @@ export const ESTADO_LABELS: Record<EstadoPago, string> = {
 };
 
 export const ESTADO_BG_CLASS: Record<EstadoPago, string> = {
-  pendiente: "bg-estado-pendiente text-cream",
+  pendiente: "bg-estado-pendiente text-pine",
   sena: "bg-estado-sena text-pine",
   pagado: "bg-estado-pagado text-pine",
 };

@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --background: #f5f0e6;
-  --foreground: #26372e;
+  --background: #10120f;
+  --foreground: #f5f0e6;
 }
 
 body {
@@ -23,11 +23,11 @@ textarea {
 @layer components {
   /* Inputs/selects/textareas consistentes en toda la app. */
   .input-field {
-    @apply w-full rounded-lg border border-pine/30 bg-cream px-3 py-2.5 text-base text-pine placeholder:text-pine/40 transition focus:border-pine focus:outline-none focus-visible:ring-2 focus-visible:ring-wood/70;
+    @apply w-full rounded-lg border border-cream/20 bg-ink-light px-3 py-2.5 text-base text-cream placeholder:text-cream/40 transition focus:border-cream/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-wood-light;
   }
 
   .field-label {
-    @apply mb-1 block text-sm font-medium text-pine;
+    @apply mb-1 block text-sm font-medium text-cream/90;
   }
 
   /* Botones con mínimo 44px de alto para un área táctil cómoda. */
@@ -36,15 +36,15 @@ textarea {
   }
 
   .btn-secondary {
-    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg border border-pine/30 bg-cream px-4 py-2.5 text-sm font-medium text-pine transition hover:bg-pine/10 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-60;
+    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg border border-cream/20 bg-ink-light px-4 py-2.5 text-sm font-medium text-cream transition hover:bg-cream/10 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-60;
   }
 
   .btn-danger {
-    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg border border-estado-pendiente/50 bg-cream px-4 py-2.5 text-sm font-medium text-estado-pendiente transition hover:bg-estado-pendiente/10 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-60;
+    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg border border-estado-pendiente/50 bg-ink-light px-4 py-2.5 text-sm font-medium text-estado-pendiente transition hover:bg-estado-pendiente/10 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-60;
   }
 
   .card {
-    @apply rounded-xl border border-pine/15 bg-cream-dark/60 shadow-sm;
+    @apply rounded-xl border border-cream/10 bg-ink-light/60 shadow-sm;
   }
 }
 
@@ -55,6 +55,6 @@ textarea {
 
   /* Foco visible por teclado, para elementos que no usan .btn- o .input-field. */
   .focus-ring {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-wood/70 focus-visible:ring-offset-2 focus-visible:ring-offset-cream;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-wood-light focus-visible:ring-offset-2 focus-visible:ring-offset-ink;
   }
 }

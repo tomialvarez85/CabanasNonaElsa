@@ -35,6 +35,12 @@ export default function HeaderMenu() {
         >
           Resumen general
         </Link>
+        <Link
+          href="/costos"
+          className="text-sm font-medium text-cream/90 transition hover:text-cream hover:underline"
+        >
+          Costos
+        </Link>
         <LogoutButton />
       </div>
 
@@ -55,17 +61,25 @@ export default function HeaderMenu() {
         {open && (
           <div
             role="menu"
-            className="absolute right-0 top-full z-50 mt-2 w-52 rounded-lg border border-pine/15 bg-cream p-1.5 shadow-lg"
+            className="absolute right-0 top-full z-50 mt-2 w-52 rounded-lg border border-cream/15 bg-ink-light p-1.5 shadow-lg"
           >
             <Link
               href="/resumen-general"
               role="menuitem"
               onClick={() => setOpen(false)}
-              className="focus-ring block rounded-lg px-3 py-2.5 text-sm font-medium text-pine transition hover:bg-pine/10"
+              className="focus-ring block rounded-lg px-3 py-2.5 text-sm font-medium text-cream transition hover:bg-cream/10"
             >
               Resumen general
             </Link>
-            <div className="mt-1 border-t border-pine/10 pt-1">
+            <Link
+              href="/costos"
+              role="menuitem"
+              onClick={() => setOpen(false)}
+              className="focus-ring block rounded-lg px-3 py-2.5 text-sm font-medium text-cream transition hover:bg-cream/10"
+            >
+              Costos
+            </Link>
+            <div className="mt-1 border-t border-cream/10 pt-1">
               <LogoutButton variant="menu" />
             </div>
           </div>

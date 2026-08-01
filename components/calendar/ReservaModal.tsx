@@ -39,7 +39,7 @@ export default function ReservaModal({ cabanaId, dateISO, reservas, onClose }: R
   if (reservas.length === 0) {
     return (
       <Modal onClose={onClose}>
-        <h2 className="mb-4 text-lg font-semibold text-pine">Nueva reserva</h2>
+        <h2 className="mb-4 text-lg font-semibold text-cream">Nueva reserva</h2>
         <ReservaForm
           cabanaId={cabanaId}
           initial={{ check_in: dateISO, check_out: dateISO }}
@@ -56,7 +56,7 @@ export default function ReservaModal({ cabanaId, dateISO, reservas, onClose }: R
   if (editingReserva) {
     return (
       <Modal onClose={onClose}>
-        <h2 className="mb-4 text-lg font-semibold text-pine">Editar reserva</h2>
+        <h2 className="mb-4 text-lg font-semibold text-cream">Editar reserva</h2>
         <ReservaForm
           cabanaId={cabanaId}
           initial={editingReserva}
@@ -74,7 +74,7 @@ export default function ReservaModal({ cabanaId, dateISO, reservas, onClose }: R
   return (
     <Modal onClose={onClose}>
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-pine">Detalle de la reserva</h2>
+        <h2 className="text-lg font-semibold text-cream">Detalle de la reserva</h2>
         {reservas.length > 1 && (
           <span className="flex items-center gap-1 text-sm font-medium text-estado-pendiente">
             ⚠ {reservas.length} reservas superpuestas
@@ -86,31 +86,31 @@ export default function ReservaModal({ cabanaId, dateISO, reservas, onClose }: R
         {reservas.map((reserva) => {
           const saldo = reserva.total - reserva.sena;
           return (
-            <div key={reserva.id} className="rounded border border-pine/20 p-3">
+            <div key={reserva.id} className="card p-3">
               <div className="mb-2 flex items-center justify-between">
-                <p className="font-medium text-pine">{reserva.huesped_nombre}</p>
-                <span className="rounded-full bg-pine/10 px-2 py-0.5 text-xs font-medium text-pine">
+                <p className="font-medium text-cream">{reserva.huesped_nombre}</p>
+                <span className="rounded-full bg-cream/10 px-2 py-0.5 text-xs font-medium text-cream">
                   {ESTADO_LABELS[reserva.estado_pago]}
                 </span>
               </div>
-              <dl className="grid grid-cols-2 gap-x-3 gap-y-1 text-sm text-pine/90">
-                <dt className="text-pine/60">Check-in</dt>
+              <dl className="grid grid-cols-2 gap-x-3 gap-y-1 text-sm text-cream/90">
+                <dt className="text-cream/60">Check-in</dt>
                 <dd>{reserva.check_in}</dd>
-                <dt className="text-pine/60">Check-out</dt>
+                <dt className="text-cream/60">Check-out</dt>
                 <dd>{reserva.check_out}</dd>
-                <dt className="text-pine/60">Personas</dt>
+                <dt className="text-cream/60">Personas</dt>
                 <dd>{reserva.personas}</dd>
-                <dt className="text-pine/60">Total</dt>
+                <dt className="text-cream/60">Total</dt>
                 <dd>{formatMoney(reserva.total)}</dd>
-                <dt className="text-pine/60">Seña</dt>
+                <dt className="text-cream/60">Seña</dt>
                 <dd>{formatMoney(reserva.sena)}</dd>
-                <dt className="text-pine/60">Saldo pendiente</dt>
+                <dt className="text-cream/60">Saldo pendiente</dt>
                 <dd className={saldo > 0 ? "font-medium text-estado-pendiente" : ""}>
                   {formatMoney(saldo)}
                 </dd>
                 {reserva.notas && (
                   <>
-                    <dt className="text-pine/60">Notas</dt>
+                    <dt className="text-cream/60">Notas</dt>
                     <dd>{reserva.notas}</dd>
                   </>
                 )}
@@ -118,14 +118,14 @@ export default function ReservaModal({ cabanaId, dateISO, reservas, onClose }: R
               <div className="mt-3 flex gap-2">
                 <button
                   onClick={() => setEditingReserva(reserva)}
-                  className="rounded border border-pine/30 px-3 py-1 text-sm font-medium text-pine transition hover:bg-pine/10"
+                  className="btn-secondary flex-1 text-sm"
                 >
                   Editar
                 </button>
                 <button
                   onClick={() => handleDelete(reserva.id)}
                   disabled={deletingId === reserva.id}
-                  className="rounded border border-estado-pendiente/50 px-3 py-1 text-sm font-medium text-estado-pendiente transition hover:bg-estado-pendiente/10 disabled:opacity-60"
+                  className="btn-danger flex-1 text-sm"
                 >
                   {deletingId === reserva.id ? "Eliminando..." : "Eliminar"}
                 </button>
@@ -137,10 +137,7 @@ export default function ReservaModal({ cabanaId, dateISO, reservas, onClose }: R
 
       {deleteError && <p className="mt-3 text-sm text-estado-pendiente">{deleteError}</p>}
 
-      <button
-        onClick={onClose}
-        className="mt-5 rounded bg-pine px-4 py-2 text-sm font-medium text-cream transition hover:bg-pine-light"
-      >
+      <button onClick={onClose} className="btn-primary mt-5">
         Cerrar
       </button>
     </Modal>

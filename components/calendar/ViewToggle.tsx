@@ -17,12 +17,12 @@ export default function ViewToggle({ view }: ViewToggleProps) {
   }
 
   return (
-    <div className="mb-4 inline-flex rounded-full border border-pine/30 bg-cream p-0.5 shadow-sm">
+    <div className="mb-4 inline-flex rounded-full border border-cream/20 bg-ink-light p-0.5 shadow-sm">
       <button
         onClick={() => setView("calendar")}
         aria-pressed={view === "calendar"}
         className={`focus-ring inline-flex min-h-[40px] items-center justify-center rounded-full px-3 text-sm font-medium transition ${
-          view === "calendar" ? "bg-pine text-cream" : "text-pine hover:bg-pine/10"
+          view === "calendar" ? "bg-pine text-cream" : "text-cream hover:bg-cream/10"
         }`}
       >
         Vista calendario
@@ -31,7 +31,7 @@ export default function ViewToggle({ view }: ViewToggleProps) {
         onClick={() => setView("list")}
         aria-pressed={view === "list"}
         className={`focus-ring inline-flex min-h-[40px] items-center justify-center rounded-full px-3 text-sm font-medium transition ${
-          view === "list" ? "bg-pine text-cream" : "text-pine hover:bg-pine/10"
+          view === "list" ? "bg-pine text-cream" : "text-cream hover:bg-cream/10"
         }`}
       >
         Vista lista

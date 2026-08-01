@@ -14,6 +14,8 @@ interface CalendarGridProps {
   todayISO: string;
 }
 
+const DISPONIBLE_BG_CLASS = "bg-ink-light border border-cream/10 text-cream hover:bg-cream/10";
+
 export default function CalendarGrid({
   year,
   month,
@@ -42,7 +44,7 @@ export default function CalendarGrid({
 
   if (!cabanaId) {
     return (
-      <p className="card px-4 py-6 text-center text-sm text-pine/70">
+      <p className="card px-4 py-6 text-center text-sm text-cream/70">
         Seleccioná una cabaña para ver el calendario.
       </p>
     );
@@ -53,19 +55,19 @@ export default function CalendarGrid({
       {reservas.length === 0 && (
         <div className="card mb-4 flex flex-col items-center gap-3 px-4 py-6 text-center sm:flex-row sm:justify-between sm:text-left">
           <div>
-            <p className="font-medium text-pine">No hay reservas este mes</p>
-            <p className="text-sm text-pine/60">Todos los días están disponibles todavía.</p>
+            <p className="font-medium text-cream">No hay reservas este mes</p>
+            <p className="text-sm text-cream/60">Todos los días están disponibles todavía.</p>
           </div>
           <button
             onClick={() => setSelectedDay(defaultNewDateISO)}
-            className="focus-ring shrink-0 rounded px-1 text-sm font-medium text-pine underline decoration-pine/40 underline-offset-4 transition hover:text-pine-light"
+            className="focus-ring shrink-0 rounded px-1 text-sm font-medium text-cream underline decoration-cream/40 underline-offset-4 transition hover:text-white"
           >
             + Cargar una reserva
           </button>
         </div>
       )}
 
-      <div className="grid grid-cols-7 gap-1 text-center text-xs font-semibold text-pine/70 sm:text-sm">
+      <div className="grid grid-cols-7 gap-1 text-center text-xs font-semibold text-cream/70 sm:text-sm">
         {WEEKDAY_LABELS.map((label, index) => (
           <div key={label} className="py-1">
             <span className="sm:hidden">{WEEKDAY_LABELS_SHORT[index]}</span>
@@ -80,13 +82,13 @@ export default function CalendarGrid({
           const hasOverlap = dayReservas.length > 1;
           const isToday = cell.iso === todayISO;
 
-          let bgClass = "bg-estado-disponible hover:bg-cream-dark";
+          let bgClass = DISPONIBLE_BG_CLASS;
           let icon: string | null = null;
           if (dayReservas.length === 1) {
             bgClass = ESTADO_BG_CLASS[dayReservas[0].estado_pago];
             icon = ESTADO_ICON[dayReservas[0].estado_pago];
           } else if (hasOverlap) {
-            bgClass = "bg-estado-pendiente text-cream";
+            bgClass = "bg-estado-pendiente text-pine";
           }
 
           return (
@@ -95,7 +97,7 @@ export default function CalendarGrid({
               onClick={() => setSelectedDay(cell.iso)}
               className={`focus-ring relative flex aspect-square min-h-[44px] flex-col items-start justify-start rounded-lg p-1 text-left shadow-sm transition hover:shadow-md active:scale-[0.97] sm:p-2 ${bgClass} ${
                 cell.isCurrentMonth ? "" : "opacity-40"
-              } ${isToday ? "ring-2 ring-wood ring-offset-1 ring-offset-cream" : ""}`}
+              } ${isToday ? "ring-2 ring-wood-light ring-offset-1 ring-offset-ink" : ""}`}
             >
               <div className="flex w-full items-start justify-between">
                 <span className="text-xs font-semibold sm:text-sm">{cell.day}</span>
@@ -127,9 +129,9 @@ export default function CalendarGrid({
         })}
       </div>
 
-      <div className="mt-4 flex flex-wrap gap-3 text-xs text-pine/80 sm:text-sm">
-        <LegendItem colorClass="bg-estado-disponible border border-pine/20" label="Disponible" />
-        <LegendItem colorClass="bg-estado-pendiente text-cream" label="Pendiente de seña" icon="!" />
+      <div className="mt-4 flex flex-wrap gap-3 text-xs text-cream/80 sm:text-sm">
+        <LegendItem colorClass="bg-ink-light border border-cream/20" label="Disponible" />
+        <LegendItem colorClass="bg-estado-pendiente text-pine" label="Pendiente de seña" icon="!" />
         <LegendItem colorClass="bg-estado-sena text-pine" label="Seña pagada" icon="◐" />
         <LegendItem colorClass="bg-estado-pagado text-pine" label="Pagado completo" icon="✓" />
       </div>
